@@ -9,11 +9,11 @@ import { Habit } from '../screens/Habit';
 export function AppRoutes() {
   return (
     <Navigator screenOptions={{ headerShown: false }}>
-      <Screen name="Home" component={Home} />
+      <Screen name="home" component={Home} />
 
-      <Screen name="New habit" component={NewHabit} />
+      <Screen name="new_habit" component={NewHabit} />
 
-      <Screen name="Habit" component={Habit} />
+      <Screen name="habit" component={Habit} />
     </Navigator>
   );
 }
