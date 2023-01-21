@@ -11,7 +11,7 @@ const amountOfDaysToFill = minimumSummaryDatesSizes - datesFromYearBegin.length;
 
 export function Home() {
   return (
-    <View className="flex-1 bg-background px-8 pt-16">
+    <View className="flex-1 bg-black px-8 pt-16">
       <Header />
 
       <View className="flex-row mt-6 mb-2">
