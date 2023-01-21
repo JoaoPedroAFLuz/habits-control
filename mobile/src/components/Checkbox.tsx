@@ -19,15 +19,15 @@ export function Checkbox({ title, checked = false, ...rest }: CheckboxProps) {
       className="flex-row mb-2 items-center"
       {...rest}
     >
-      <View className="h-8 w-8 bg-green-500 rounded-lg items-center justify-center">
-        {checked ? (
+      {checked ? (
+        <View className="items-center justify-center h-8 w-8 bg-green-500 rounded-lg">
           <Feather name="check" size={20} color={colors.white} />
-        ) : (
-          <View className="h-8 w-8 bg-zinc-900 rounded-lg" />
-        )}
-      </View>
+        </View>
+      ) : (
+        <View className="h-8 w-8 bg-zinc-900 border-2 border-zinc-800 rounded-lg" />
+      )}
 
-      <Text className="text-white text-base ml-3">{title}</Text>
+      <Text className="text-white text-base font-semibold ml-3">{title}</Text>
     </TouchableOpacity>
   );
 }
