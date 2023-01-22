@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {
+  Alert,
   ScrollView,
   Text,
   TextInput,
@@ -11,6 +12,8 @@ import colors from 'tailwindcss/colors';
 
 import { BackButton } from '../components/BackButton';
 import { Checkbox } from '../components/Checkbox';
+import { api } from '../lib/axios';
+import { Loading } from '../components/Loading';
 
 const availableWeekDays = [
   'Domingo',
@@ -23,7 +26,9 @@ const availableWeekDays = [
 ];
 
 export function NewHabit() {
+  const [isLoading, setIsLoading] = useState(false);
   const [weekDays, setWeekDays] = useState<number[]>([]);
+  const [title, setTitle] = useState('');
 
   function handleToggleWeekDay(weekDayIndex: number) {
     if (weekDays.includes(weekDayIndex)) {
@@ -33,6 +38,34 @@ export function NewHabit() {
     } else {
       setWeekDays((prevState) => [...prevState, weekDayIndex]);
     }
+  }
+
+  async function handleCreateNewHabit() {
+    try {
+      if (!title.trim() || weekDays.length === 0) {
+        return Alert.alert(
+          'Novo hábito',
+          'Insira o nome e a recorrência do hábito.'
+        );
+      }
+
+      setIsLoading(true);
+
+      await api.post('/habits', { title, weekDays });
+
+      setTitle('');
+      setWeekDays([]);
+      setIsLoading(false);
+
+      Alert.alert('Novo hábito', 'Hábito criado com sucesso.');
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Ops', 'Não foi possível criar o novo hábito.');
+    }
+  }
+
+  if (isLoading) {
+    return <Loading />;
   }
 
   return (
@@ -55,6 +88,8 @@ export function NewHabit() {
           placeholder="ex.: Exercícios, dormir bem, etc..."
           placeholderTextColor={colors.zinc[400]}
           className="h-12 pl-4 mt-3 rounded-lg bg-zinc-900 text-white border-2 border-zinc-800 focus:border-green-600"
+          value={title}
+          onChangeText={setTitle}
         />
 
         <Text className="mt-4 mb-3 text-white text-base font-semibold">
@@ -73,6 +108,7 @@ export function NewHabit() {
         <TouchableOpacity
           activeOpacity={0.7}
           className="w-full h-14 flex-row items-center justify-center bg-green-600 mt-6 rounded-md"
+          onPress={handleCreateNewHabit}
         >
           <Feather name="check" size={20} color={colors.white} />
           <Text className="font-semibold text-base text-white ml-2">
