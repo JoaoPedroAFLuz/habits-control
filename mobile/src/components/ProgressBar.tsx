@@ -8,7 +8,7 @@ export function ProgressBar({ progress = 0 }: ProgressBarProps) {
   return (
     <View className="w-full h-4 rounded-xl bg-zinc-700 mt-4">
       <View
-        className="h-full rounded-xl bg-violet-600"
+        className="h-full rounded-xl bg-violet-600 transition-all"
         style={{ width: `${progress}%` }}
       ></View>
     </View>

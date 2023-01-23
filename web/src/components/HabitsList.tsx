@@ -23,7 +23,7 @@ export function HabitsList({ date, onCompletedChanged }: HabitsListProps) {
 
   const isDateInPast = dayjs(date).endOf('day').isBefore(dayjs());
 
-  async function getHabitsData() {
+  async function getHabitsInfo() {
     const response = await api.get('day', {
       params: {
         date: date.toISOString(),
@@ -57,7 +57,7 @@ export function HabitsList({ date, onCompletedChanged }: HabitsListProps) {
   }
 
   useEffect(() => {
-    getHabitsData();
+    getHabitsInfo();
   }, []);
 
   return (

@@ -87,7 +87,7 @@ export function NewHabit() {
         <TextInput
           placeholder="ex.: Exercícios, dormir bem, etc..."
           placeholderTextColor={colors.zinc[400]}
-          className="h-12 pl-4 mt-3 rounded-lg bg-zinc-900 text-white border-2 border-zinc-800 focus:border-green-600"
+          className="h-12 pl-4 mt-3 rounded-lg bg-zinc-900 text-white border-2 border-zinc-800 focus:border-violet-600"
           value={title}
           onChangeText={setTitle}
         />
