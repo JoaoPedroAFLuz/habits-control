@@ -124,7 +124,7 @@ export function Habit() {
             ['opacity-50']: isDateInPast,
           })}
         >
-          {habitsInfo ? (
+          {habitsInfo && habitsInfo.possibleHabits.length > 0 ? (
             habitsInfo?.possibleHabits.map((habit) => (
               <Checkbox
                 key={habit.id}
@@ -139,7 +139,7 @@ export function Habit() {
           )}
         </View>
 
-        {isDateInPast && (
+        {isDateInPast && habitsInfo && habitsInfo.possibleHabits.length > 0 && (
           <Text className="text-white mt-10 text-center">
             Você não pode editar hábitos de uma data passada.
           </Text>
