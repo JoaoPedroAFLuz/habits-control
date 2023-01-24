@@ -1,4 +1,5 @@
 import { useRoute } from '@react-navigation/native';
+import clsx from 'clsx';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { Alert, ScrollView, Text, View } from 'react-native';
@@ -11,7 +12,6 @@ import { Checkbox } from '../components/Checkbox';
 import { HabitsEmpty } from '../components/HabitsEmpty';
 import { Loading } from '../components/Loading';
 import { ProgressBar } from '../components/ProgressBar';
-import clsx from 'clsx';
 interface Params {
   date: string;
 }
@@ -67,26 +67,30 @@ export function Habit() {
   }
 
   async function handleToggleHabit(habitId: string) {
-    await api.patch(`habits/${habitId}/toggle`);
+    try {
+      await api.patch(`habits/${habitId}/toggle`);
 
-    const isHabitAlreadyChecked = habitsInfo!.completedHabits.includes(habitId);
+      const isHabitAlreadyChecked =
+        habitsInfo!.completedHabits.includes(habitId);
 
-    let completedHabits: string[] = [];
+      let completedHabits: string[] = [];
 
-    if (isHabitAlreadyChecked) {
-      completedHabits = habitsInfo!.completedHabits.filter(
-        (id) => id !== habitId
-      );
-    } else {
-      completedHabits = [...habitsInfo!.completedHabits, habitId];
+      if (isHabitAlreadyChecked) {
+        completedHabits = habitsInfo!.completedHabits.filter(
+          (id) => id !== habitId
+        );
+      } else {
+        completedHabits = [...habitsInfo!.completedHabits, habitId];
+      }
+
+      setHabitsInfo({
+        possibleHabits: habitsInfo!.possibleHabits,
+        completedHabits,
+      });
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Ops', 'Não foi possível editar as informações dos hábitos.');
     }
-
-    setHabitsInfo({
-      possibleHabits: habitsInfo!.possibleHabits,
-      completedHabits,
-    });
-
-    // onCompletedChanged(completedHabits.length);
   }
 
   useEffect(() => {
