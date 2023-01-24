@@ -8,6 +8,7 @@ import { generateProgressPercentage } from '../utils/generate-progress-percentag
 
 import { BackButton } from '../components/BackButton';
 import { Checkbox } from '../components/Checkbox';
+import { HabitsEmpty } from '../components/HabitsEmpty';
 import { Loading } from '../components/Loading';
 import { ProgressBar } from '../components/ProgressBar';
 interface Params {
@@ -113,14 +114,18 @@ export function Habit() {
         <ProgressBar progress={habitProgress} />
 
         <View className="mt-6">
-          {habitsInfo?.possibleHabits.map((habit) => (
-            <Checkbox
-              key={habit.id}
-              title={habit.title}
-              checked={habitsInfo.completedHabits.includes(habit.id)}
-              onPress={() => handleToggleHabit(habit.id)}
-            />
-          ))}
+          {habitsInfo ? (
+            habitsInfo?.possibleHabits.map((habit) => (
+              <Checkbox
+                key={habit.id}
+                title={habit.title}
+                checked={habitsInfo.completedHabits.includes(habit.id)}
+                onPress={() => handleToggleHabit(habit.id)}
+              />
+            ))
+          ) : (
+            <HabitsEmpty />
+          )}
         </View>
       </ScrollView>
     </View>
