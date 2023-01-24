@@ -11,6 +11,7 @@ import { Checkbox } from '../components/Checkbox';
 import { HabitsEmpty } from '../components/HabitsEmpty';
 import { Loading } from '../components/Loading';
 import { ProgressBar } from '../components/ProgressBar';
+import clsx from 'clsx';
 interface Params {
   date: string;
 }
@@ -34,6 +35,7 @@ export function Habit() {
   const parsedDate = dayjs(date);
   const dayOfWeek = parsedDate.format('dddd');
   const dayAndMonth = parsedDate.format('DD/MM');
+  const isDateInPast = parsedDate.endOf('day').isBefore(dayjs());
 
   const habitProgress = habitsInfo?.possibleHabits
     ? generateProgressPercentage(
@@ -113,13 +115,18 @@ export function Habit() {
 
         <ProgressBar progress={habitProgress} />
 
-        <View className="mt-6">
+        <View
+          className={clsx('mt-6', {
+            ['opacity-50']: isDateInPast,
+          })}
+        >
           {habitsInfo ? (
             habitsInfo?.possibleHabits.map((habit) => (
               <Checkbox
                 key={habit.id}
                 title={habit.title}
                 checked={habitsInfo.completedHabits.includes(habit.id)}
+                disabled={isDateInPast}
                 onPress={() => handleToggleHabit(habit.id)}
               />
             ))
@@ -127,6 +134,12 @@ export function Habit() {
             <HabitsEmpty />
           )}
         </View>
+
+        {isDateInPast && (
+          <Text className="text-white mt-10 text-center">
+            Você não pode editar hábitos de uma data passada.
+          </Text>
+        )}
       </ScrollView>
     </View>
   );
